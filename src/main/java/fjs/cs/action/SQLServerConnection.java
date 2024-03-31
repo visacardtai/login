@@ -1,15 +1,18 @@
 package fjs.cs.action;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import config.ConfigProperties;
 
 public class SQLServerConnection {
-	private static final String DB_URL = "jdbc:sqlserver://DESKTOP-DF7MO3M\\CUSTOMERSYSTEM:1433;databaseName=CustomerSystem";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "1111";
+	
     
     private Connection connection;
 
@@ -23,7 +26,9 @@ public class SQLServerConnection {
 
     public void connect() {
         try {
-            connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+     
+        	ConfigProperties.init();
+            connection = DriverManager.getConnection(ConfigProperties.properties.getProperty("db.url"), ConfigProperties.properties.getProperty("db.username"), ConfigProperties.properties.getProperty("db.password"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
